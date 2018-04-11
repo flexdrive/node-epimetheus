@@ -1,14 +1,15 @@
-const defaults = require('./lib/defaults')
-const hapi = require('./lib/hapi')
-const express = require('./lib/express')
-const restify = require('./lib/restify')
-const http = require('./lib/http')
+const defaults = require("./lib/defaults")
+const hapi = require("./lib/hapi")
+const express = require("./lib/express")
+const restify = require("./lib/restify")
+const http = require("./lib/http")
 
-function instrument (app, options) {
+function instrument(app, options) {
+  const opts = Object.assign({}, { path: "/metrics" }, options)
   options = defaults(options)
 
   if (hapi.instrumentable(app)) {
-    hapi.instrument(app, options)
+    hapi.instrument(app, opts)
   } else if (express.instrumentable(app)) {
     express.instrument(app, options)
   } else if (restify.instrumentable(app)) {
