@@ -46,6 +46,7 @@ The first argument represents the server of the middleware.
 The second argument is optional, and provides options to configure the server route
 
 - `url` - the url on which to serve metrics. Defaults to `/metrics`.  Backwards compatibility
+- `route` - Options that are passed to the configured route.  Only integrated with Hapi
 
 See the following examples of use with [http](#http), [express](#express), [hapi](#hapi) and [restify](#restify).
 
