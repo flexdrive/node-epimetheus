@@ -5,7 +5,9 @@ const assertExpectations = require('./assert-expectations')
 const assert = require('chai').assert
 const libExpress = require('../lib/express')
 
-function setup (options) {
+function setup(options) {
+  options.routePath = '/resource/:id';
+
   return describe('express ' + options.url, () => {
     before((done) => {
       const app = express()
@@ -13,7 +15,7 @@ function setup (options) {
       app.get('/', (req, res) => {
         res.send()
       })
-      app.get('/resource/:id', (req, res) => {
+      app.get(options.routePath, (req, res) => {
         res.send()
       })
       this.server = app.listen(3000, done)
@@ -35,9 +37,9 @@ setup({
 describe('express should check "instrumentablity" properly', () => {
   it('should return true when express conditions are correct', () => {
     // Arrange
-    const server = () => {}
+    const server = () => { }
     server.defaultConfiguration = { sample: true }
-    server.use = () => {}
+    server.use = () => { }
 
     // Act
     const actual = libExpress.instrumentable(server)
@@ -56,8 +58,8 @@ describe('express should check "instrumentablity" properly', () => {
 
   it('should return false when server does not have a default configuration', () => {
     // Arrange
-    const server = () => {}
-    server.use = () => {}
+    const server = () => { }
+    server.use = () => { }
 
     // Act
     const actual = libExpress.instrumentable(server)
@@ -68,7 +70,7 @@ describe('express should check "instrumentablity" properly', () => {
 
   it('should return false when server does not have a use function', () => {
     // Arrange
-    const server = () => {}
+    const server = () => { }
     server.defaultConfiguration = { sample: true }
 
     // Act

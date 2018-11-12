@@ -5,11 +5,10 @@ const restify = require("./lib/restify")
 const http = require("./lib/http")
 
 function instrument(app, options) {
-  const opts = Object.assign({}, { path: "/metrics" }, options)
   options = defaults(options)
 
   if (hapi.instrumentable(app)) {
-    hapi.instrument(app, opts)
+    hapi.instrument(app, options)
   } else if (express.instrumentable(app)) {
     express.instrument(app, options)
   } else if (restify.instrumentable(app)) {

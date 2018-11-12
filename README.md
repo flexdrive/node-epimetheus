@@ -43,9 +43,9 @@ Epimetheus has only one method, instrument, and it has the following signature:
 
 The first argument represents the server of the middleware.
 
-The second argument is optional, and allows some configuration of epimetheus
+The second argument is optional, and provides options to configure the server route
 
-- `url` - the url on which to serve metrics. Defaults to `/metrics`.
+- `url` - the url on which to serve metrics. Defaults to `/metrics`.  Backwards compatibility
 
 See the following examples of use with [http](#http), [express](#express), [hapi](#hapi) and [restify](#restify).
 
@@ -90,25 +90,34 @@ app.listen(3000, () => {
 const Hapi = require('hapi');
 const epimetheus = require('epimetheus');
 
-const server = new Hapi.Server();
+const server = Hapi.Server({
+    port: 8002
+})
 
-server.connection({
-  port: 3000
-});
+async function init() {
+  try {
+    await epithemeus.instrument(server);
 
-epimetheus.instrument(this.server);
+    server.route({
+      method: 'GET',
+      path: '/',
+      handler: async (request, h) => {
+        return h.response()
+      }
+    })
 
-server.route({
-  method: 'GET',
-  path: '/',
-  handler: (req, resp) => {
-    resp();
+    await server.start()
+
+    console.log(`Hapi ${server.version} server listening on port 8002`)
+
+  } catch(err) {
+    console.log('Error', err);
+    process.exit(1);
   }
-});
 
-server.start(() => {
-  console.log('hapi server listening on port 3000');
-});
+}
+
+init();
 ```
 # <a name="restify"></a> Restify
 ```
