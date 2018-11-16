@@ -47,6 +47,7 @@ The second argument is optional, and provides options to configure the server ro
 
 - `url` - the url on which to serve metrics. Defaults to `/metrics`.  Backwards compatibility
 - `route` - Options that are passed to the configured route.  Only integrated with Hapi
+- `restrictedPath` - Paths that should not have monitoring
 
 See the following examples of use with [http](#http), [express](#express), [hapi](#hapi) and [restify](#restify).
 
